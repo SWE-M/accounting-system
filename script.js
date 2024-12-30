@@ -73,15 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-    // تحسين التنسيق في Excel
-    const headerStyle = { font: { bold: true }, fill: { fgColor: { rgb: "FFFF00" } }, border: { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } } } };
-    for (let i = 0; i < 4; i++) {
-      ws['A1'].s = headerStyle;
-      ws['B1'].s = headerStyle;
-      ws['C1'].s = headerStyle;
-      ws['D1'].s = headerStyle;
-    }
-
     // إضافة ورقة العمل إلى الكتاب
     XLSX.utils.book_append_sheet(workbook, ws, "الفاتورة");
 
