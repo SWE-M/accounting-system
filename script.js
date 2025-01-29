@@ -45,41 +45,54 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("grand-total").textContent = grandTotal.toFixed(2);
   }
 
-  // التعامل مع تحميل الفاتورة
+  // التعامل مع تحميل الفاتورة كـ PDF
   document.getElementById("download-invoice").addEventListener("click", function () {
     const clientName = document.getElementById("client-name").value;
     const clientPhone = document.getElementById("client-phone").value;
-    const invoiceDate = document.getElementById("invoice-date").value;
 
     // تحقق من المدخلات قبل تنزيل الفاتورة
-    if (!clientName || !clientPhone || !invoiceDate) {
-      alert("يرجى إدخال جميع بيانات العميل وتاريخ الفاتورة");
+    if (!clientName || !clientPhone) {
+      alert("يرجى إدخال جميع بيانات العميل");
       return;
     }
 
-    // إنشاء بيانات الفاتورة
-    const workbook = XLSX.utils.book_new();
-    const ws_data = [
-      ["اسم العميل", clientName],
-      ["رقم الجوال", clientPhone],
-      ["تاريخ الفاتورة", invoiceDate],
-      [], // سطر فارغ
-      ["المنتج", "الكمية", "السعر", "المجموع"],
-      ...Array.from(document.querySelectorAll("#purchases-table tbody tr")).map(row => {
-        return Array.from(row.cells).map(cell => cell.textContent);
-      }),
-      [], // سطر فارغ
-      ["جمع الضريبة (15%)", document.getElementById("tax-total").textContent],
-      ["المجموع الكلي", document.getElementById("grand-total").textContent]
-    ];
+    // إنشاء ملف PDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    // إضافة عنوان الفاتورة
+    doc.setFontSize(18);
+    doc.text("فاتورة شراء", 105, 15, { align: 'center' });
 
-    // إضافة ورقة العمل إلى الكتاب
-    XLSX.utils.book_append_sheet(workbook, ws, "الفاتورة");
+    // إضافة معلومات العميل
+    doc.setFontSize(12);
+    doc.text(`اسم العميل: ${clientName}`, 20, 30);
+    doc.text(`رقم الجوال: ${clientPhone}`, 20, 40);
+    doc.text(`تاريخ الفاتورة: ${new Date().toLocaleDateString('ar-EG')}`, 20, 50);
 
-    // تنزيل الفاتورة
-    XLSX.writeFile(workbook, "Invoice.xlsx");
+    // إضافة جدول المشتريات
+    const headers = ["المنتج", "الكمية", "السعر", "المجموع"];
+    const rows = Array.from(document.querySelectorAll("#purchases-table tbody tr")).map(row => {
+      return Array.from(row.cells).map(cell => cell.textContent);
+    });
+
+    doc.autoTable({
+      startY: 60,
+      head: [headers],
+      body: rows,
+      theme: 'grid',
+      styles: { font: 'Arial', fontSize: 10, halign: 'center' },
+      headStyles: { fillColor: [52, 152, 219] }
+    });
+
+    // إضافة الضريبة والمجموع الكلي
+    const taxTotal = document.getElementById("tax-total").textContent;
+    const grandTotal = document.getElementById("grand-total").textContent;
+    doc.text(`جمع الضريبة (15%): ${taxTotal}`, 20, doc.autoTable.previous.finalY + 10);
+    doc.text(`المجموع الكلي: ${grandTotal}`, 20, doc.autoTable.previous.finalY + 20);
+
+    // حفظ الملف
+    doc.save("Invoice.pdf");
   });
 
   // التعامل مع إضافة فاتورة جديدة
