@@ -49,18 +49,19 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("download-invoice").addEventListener("click", function () {
     const clientName = document.getElementById("client-name").value;
     const clientPhone = document.getElementById("client-phone").value;
+    const invoiceDate = document.getElementById("invoice-date").value;
 
     // تحقق من المدخلات قبل تنزيل الفاتورة
-    if (!clientName || !clientPhone) {
-      alert("يرجى إدخال جميع بيانات العميل");
+    if (!clientName || !clientPhone || !invoiceDate) {
+      alert("يرجى إدخال جميع بيانات العميل وتاريخ الفاتورة");
       return;
     }
 
     // إنشاء بيانات الفاتورة
     const workbook = XLSX.utils.book_new();
     const ws_data = [
-      ["اسم العميل", "رقم الجوال", "تاريخ اليوم"],
-      [clientName, clientPhone, new Date().toLocaleDateString('ar-EG')],
+      ["اسم العميل", "رقم الجوال", "تاريخ الفاتورة"],
+      [clientName, clientPhone, invoiceDate],
       [],
       ["المنتج", "الكمية", "السعر", "المجموع"],
       ...Array.from(document.querySelectorAll("#purchases-table tbody tr")).map(row => {
