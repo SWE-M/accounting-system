@@ -60,14 +60,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // إنشاء بيانات الفاتورة
     const workbook = XLSX.utils.book_new();
     const ws_data = [
-      ["اسم العميل", "رقم الجوال", "تاريخ الفاتورة"],
-      [clientName, clientPhone, invoiceDate],
-      [],
+      ["اسم العميل", clientName],
+      ["رقم الجوال", clientPhone],
+      ["تاريخ الفاتورة", invoiceDate],
+      [], // سطر فارغ
       ["المنتج", "الكمية", "السعر", "المجموع"],
       ...Array.from(document.querySelectorAll("#purchases-table tbody tr")).map(row => {
         return Array.from(row.cells).map(cell => cell.textContent);
       }),
-      [],
+      [], // سطر فارغ
       ["جمع الضريبة (15%)", document.getElementById("tax-total").textContent],
       ["المجموع الكلي", document.getElementById("grand-total").textContent]
     ];
