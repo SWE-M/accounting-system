@@ -1,135 +1,140 @@
-/* إعدادات الأساسيات */
+/* الوضع الافتراضي (الفاتح) */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  text-align: right;
-  padding: 20px;
-  direction: rtl; /* لجعل النصوص من اليمين لليسار */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* حاوية الصفحة */
+/* زر الوضع الداكن */
+#toggle-dark-mode {
+    position: fixed; /* تثبيت الزر في مكانه */
+    top: 20px; /* المسافة من الأعلى */
+    right: 20px; /* المسافة من اليمين */
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 40px; /* حجم صغير */
+    height: 40px; /* حجم صغير */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 1000; /* التأكد من ظهوره فوق العناصر الأخرى */
+}
+#toggle-dark-mode:hover {
+    background-color: #0056b3;
+    transform: scale(1.1); /* تأثير تكبير عند التمرير */
+}
+#toggle-dark-mode i {
+    font-size: 18px; /* حجم الأيقونة */
+}
+
+/* المحتوى الرئيسي */
 .container {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* العنوان الرئيسي */
 h1 {
-  color: #333;
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
 }
 
-/* العنوان الفرعي */
-h3 {
-  color: #444;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-/* تنسيق الحقول النصية والتسمية */
 label {
-  font-size: 16px;
-  margin-top: 10px;
-  display: block;
-  margin-bottom: 5px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-/* الحقول المدخلة */
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* تنسيق الزر */
 button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-top: 15px;
-  display: block;
-  width: 100%;
-  text-align: center;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+    background-color: #218838;
 }
 
-/* تنسيق الجدول */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 14px;
+.invoice {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-table, th, td {
-  border: 1px solid #ddd;
+.invoice h2 {
+    margin-top: 0;
 }
 
-th, td {
-  padding: 10px;
-  text-align: center;
+.invoice p {
+    margin: 5px 0;
 }
 
-th {
-  background-color: #f2f2f2;
+.new-invoice-btn {
+    background-color: #007bff;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+.new-invoice-btn:hover {
+    background-color: #0056b3;
 }
 
-/* تنسيق الخلايا للمجموع الكلي والضريبة */
-.totals {
-  margin-top: 20px;
-  font-size: 18px;
-  border-top: 2px solid #ddd;
-  padding-top: 10px;
+/* وضع الدارك مود */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
 }
 
-.totals p {
-  margin: 5px 0;
+body.dark-mode .container {
+    background-color: #1e1e1e;
+    color: #ffffff;
 }
 
-.totals strong {
-  font-weight: bold;
+body.dark-mode .invoice {
+    background-color: #2d2d2d;
+    border-color: #444;
 }
 
-/* زر تحميل الفاتورة */
-#download-invoice {
-  background-color: #2196F3;
-  color: white;
-  margin-top: 30px;
-  width: auto;
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode button {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
 }
 
-#download-invoice:hover {
-  background-color: #1976D2;
+body.dark-mode button {
+    background-color: #28a745;
 }
 
-/* تنسيق لإضافة فاتورة جديدة */
-#new-invoice {
-  background-color: #FF5722;
-  color: white;
-  margin-top: 10px;
-  width: auto;
+body.dark-mode button:hover {
+    background-color: #218838;
 }
 
-#new-invoice:hover {
-  background-color: #F44336;
+body.dark-mode .new-invoice-btn {
+    background-color: #007bff;
+}
+
+body.dark-mode .new-invoice-btn:hover {
+    background-color: #0056b3;
 }
