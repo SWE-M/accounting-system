@@ -1,10 +1,19 @@
-let items = [];
-let invoiceNumber = generateInvoiceNumber(); // إنشاء رقم فاتورة عشوائي
+let items = JSON.parse(localStorage.getItem('invoiceItems')) || [];
+let invoiceNumber = localStorage.getItem('invoiceNumber') || generateInvoiceNumber(); // إنشاء رقم فاتورة عشوائي
 
 // دالة لإنشاء رقم فاتورة عشوائي مكون من 6 أرقام
 function generateInvoiceNumber() {
     return Math.floor(100000 + Math.random() * 900000); // رقم بين 100000 و 999999
 }
+
+// تحميل البيانات عند تحميل الصفحة
+window.onload = function() {
+    if (items.length > 0) {
+        document.getElementById('customerName').value = localStorage.getItem('customerName') || '';
+        document.getElementById('customerPhone').value = localStorage.getItem('customerPhone') || '';
+        updateInvoice();
+    }
+};
 
 function addItem() {
     const productName = document.getElementById('productName').value;
@@ -13,6 +22,9 @@ function addItem() {
 
     if (productName && quantity && price) {
         items.push({ productName, quantity, price });
+        localStorage.setItem('invoiceItems', JSON.stringify(items));
+        localStorage.setItem('customerName', document.getElementById('customerName').value);
+        localStorage.setItem('customerPhone', document.getElementById('customerPhone').value);
         updateInvoice();
         document.getElementById('productName').value = '';
         document.getElementById('quantity').value = '';
@@ -54,6 +66,10 @@ function updateInvoice() {
 function newInvoice() {
     items = [];
     invoiceNumber = generateInvoiceNumber(); // إنشاء رقم فاتورة جديد
+    localStorage.removeItem('invoiceItems');
+    localStorage.removeItem('customerName');
+    localStorage.removeItem('customerPhone');
+    localStorage.setItem('invoiceNumber', invoiceNumber);
     document.getElementById('invoiceForm').reset();
     document.getElementById('invoiceSection').style.display = 'none';
 }
