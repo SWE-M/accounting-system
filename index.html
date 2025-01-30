@@ -1,73 +1,67 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-  <title>نظام الفواتير</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج محاسبة - إنشاء فاتورة</title>
+    <!-- إضافة Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>نظام الفواتير</h1>
+    <!-- زر الوضع الداكن -->
+    <button id="toggle-dark-mode">
+        <i class="fas fa-moon"></i> <!-- أيقونة القمر -->
+    </button>
 
-    <!-- نموذج إدخال بيانات العميل -->
-    <div class="client-info">
-      <h3>معلومات العميل</h3>
-      <form id="invoice-form">
-        <label for="client-name">اسم العميل:</label>
-        <input type="text" id="client-name" placeholder="أدخل اسم العميل" required><br>
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <h1>إنشاء فاتورة</h1>
+        <form id="invoiceForm">
+            <label for="customerName">اسم العميل:</label>
+            <input type="text" id="customerName" required>
 
-        <label for="client-phone">رقم جوال العميل:</label>
-        <input type="text" id="client-phone" placeholder="أدخل رقم الجوال" required><br>
+            <label for="customerPhone">رقم الجوال:</label>
+            <input type="text" id="customerPhone" required>
 
-        <label for="invoice-date">تاريخ الفاتورة:</label>
-        <input type="date" id="invoice-date" required><br>
+            <label for="productName">اسم المنتج:</label>
+            <input type="text" id="productName" required>
 
-        <label for="purchase-product">المنتج:</label>
-        <input type="text" id="purchase-product" placeholder="أدخل اسم المنتج" required><br>
+            <label for="quantity">الكمية:</label>
+            <input type="number" id="quantity" min="1" required>
 
-        <label for="purchase-quantity">الكمية:</label>
-        <input type="number" id="purchase-quantity" placeholder="أدخل الكمية" required><br>
+            <label for="price">السعر:</label>
+            <input type="number" id="price" min="0" step="0.01" required>
 
-        <label for="purchase-price">السعر:</label>
-        <input type="number" id="purchase-price" placeholder="أدخل السعر" required><br>
+            <button type="button" onclick="addItem()">إضافة منتج</button>
+            <button type="button" class="new-invoice-btn" onclick="newInvoice()">فاتورة جديدة</button>
+        </form>
 
-        <button type="button" id="add-purchase">إضافة منتج</button>
-      </form>
+        <div class="invoice" id="invoiceSection" style="display: none;">
+            <h2>الفاتورة</h2>
+            <p><strong>اسم العميل:</strong> <span id="invoiceCustomerName"></span></p>
+            <p><strong>رقم الجوال:</strong> <span id="invoiceCustomerPhone"></span></p>
+            <p><strong>رقم الفاتورة:</strong> <span id="invoiceNumber"></span></p>
+            <table id="invoiceItems" width="100%" border="1" cellpadding="10" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>المنتج</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>الإجمالي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <p><strong>الإجمالي قبل الضريبة:</strong> <span id="subtotal"></span></p>
+            <p><strong>الضريبة (15%):</strong> <span id="tax"></span></p>
+            <p><strong>الإجمالي النهائي:</strong> <span id="grandTotal"></span></p>
+            
+            <button onclick="saveAsPDF()">حفظ كـ PDF/ طباعة </button>
+        </div>
     </div>
 
-    <!-- زر إضافة فاتورة جديدة -->
-    <button type="button" id="new-invoice">إضافة فاتورة جديدة</button>
-
-    <!-- عرض جدول المشتريات -->
-    <h3>جدول المشتريات</h3>
-    <table id="purchases-table">
-      <thead>
-        <tr>
-          <th>المنتج</th>
-          <th>الكمية</th>
-          <th>السعر</th>
-          <th>المجموع</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- سيتم إضافة الصفوف هنا -->
-      </tbody>
-    </table>
-
-    <!-- حساب الضريبة والمجموع -->
-    <div class="totals">
-      <p><strong>جمع الضريبة (15%):</strong> <span id="tax-total">0.00</span></p>
-      <p><strong>المجموع الكلي:</strong> <span id="grand-total">0.00</span></p>
-    </div>
-
-    <!-- زر تحميل الفاتورة -->
-    <button id="download-invoice">تحميل الفاتورة</button>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
