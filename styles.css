@@ -1,27 +1,140 @@
-/* إضافة أنماط للأزرار الجديدة */
-button {
-    margin: 2px;
-    padding: 5px 10px;
-    font-size: 14px;
+/* الوضع الافتراضي (الفاتح) */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.previous-invoices {
+/* زر الوضع الداكن */
+#toggle-dark-mode {
+    position: fixed; /* تثبيت الزر في مكانه */
+    top: 20px; /* المسافة من الأعلى */
+    right: 20px; /* المسافة من اليمين */
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 40px; /* حجم صغير */
+    height: 40px; /* حجم صغير */
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 1000; /* التأكد من ظهوره فوق العناصر الأخرى */
+}
+#toggle-dark-mode:hover {
+    background-color: #0056b3;
+    transform: scale(1.1); /* تأثير تكبير عند التمرير */
+}
+#toggle-dark-mode i {
+    font-size: 18px; /* حجم الأيقونة */
+}
+
+/* المحتوى الرئيسي */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.invoice {
     margin-top: 20px;
     padding: 20px;
     background: #f9f9f9;
     border: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.previous-invoices h2 {
+.invoice h2 {
     margin-top: 0;
 }
 
-.previous-invoices ul {
-    list-style-type: none;
-    padding: 0;
+.invoice p {
+    margin: 5px 0;
 }
 
-.previous-invoices li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.new-invoice-btn {
+    background-color: #007bff;
+}
+
+.new-invoice-btn:hover {
+    background-color: #0056b3;
+}
+
+/* وضع الدارك مود */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode .container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode .invoice {
+    background-color: #2d2d2d;
+    border-color: #444;
+}
+
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode button {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-mode button {
+    background-color: #28a745;
+}
+
+body.dark-mode button:hover {
+    background-color: #218838;
+}
+
+body.dark-mode .new-invoice-btn {
+    background-color: #007bff;
+}
+
+body.dark-mode .new-invoice-btn:hover {
+    background-color: #0056b3;
 }
